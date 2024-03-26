@@ -50,26 +50,6 @@ const Product = (props) => {
                             <div className='p-4 wrapper mb-3'>
                                 <img src={productData.catImg+'?im=Resize=(420,420)'} className='w-100' />
                             </div>
-
-                            <div className='overlay transition'>
-                                <ul className='list list-inline mb-0'>
-                                    <li className='list-inline-item'>
-                                        <a className='cursor' tooltip="Add to Wishlist">
-                                            <FavoriteBorderOutlinedIcon />
-                                        </a>
-                                    </li>
-                                    <li className='list-inline-item'>
-                                        <a className='cursor' tooltip="Compare">
-                                            <CompareArrowsOutlinedIcon />
-                                        </a>
-                                    </li>
-                                    <li className='list-inline-item'>
-                                        <a className='cursor' tooltip="Quick View">
-                                            <RemoveRedEyeOutlinedIcon />
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
 
                     </Link>

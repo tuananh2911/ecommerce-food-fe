@@ -105,7 +105,6 @@ const Nav = (props) => {
 
 
                                     <li className='list-inline-item position-static'>
-                                        <Button onClick={()=>setOpenMegaMenu(!openMegaMenu)}><Link>Shop <KeyboardArrowDownIcon   className={`${openMegaMenu===true &&  'rotateIcon'}`}/></Link></Button>
                                         <div className={`dropdown_menu megaMenu w-100 ${openMegaMenu===true && 'open'}`}>
                                             <div className='row'>
                                                 {

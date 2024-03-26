@@ -108,9 +108,7 @@ const Cart = () => {
                             <li>
                                 <Link to={'/'}>Home</Link>
                             </li>
-                            <li>
-                                Shop
-                            </li>
+                        
                             <li>
                                 Cart
                             </li>
