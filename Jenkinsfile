@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_NETWORK = 'react-app-network'
-        DOCKER_COMPOSE = 'docker-compose.yml'
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -21,15 +16,15 @@ pipeline {
 
         stage('Build') {
             steps {
+                sh 'cd ecommerce-food-fe '
                 sh 'docker build -t my-react-app .'
             }
         }
 
         stage('Deploy') {
             steps {
-                sh 'docker network create ${DOCKER_NETWORK} || true'
                 sh 'docker compose down'
-                sh 'docker compose up -d --build --force-recreate'
+                sh 'docker compose up -d --build'
             }
         }
     }
@@ -37,7 +32,6 @@ pipeline {
     post {
         always {
             sh 'docker system prune -af --volumes'
-            sh 'docker network rm ${DOCKER_NETWORK} || true'
         }
     }
 }
