@@ -10,7 +10,7 @@ pipeline {
 
         stage('Pull Code') {
             steps {
-                sh 'ssh -i key user@server'
+                sh 'ssh -i key root@143.198.222.68'
                 sh 'git pull origin develop'
             }
         }
