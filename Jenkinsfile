@@ -28,8 +28,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh 'docker network create ${DOCKER_NETWORK} || true'
-                sh 'docker-compose down'
-                sh 'docker-compose up -d --build --force-recreate'
+                sh 'docker compose down'
+                sh 'docker compose up -d --build --force-recreate'
             }
         }
     }
