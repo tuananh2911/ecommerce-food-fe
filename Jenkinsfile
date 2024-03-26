@@ -14,7 +14,7 @@ pipeline {
 
         stage('Pull Code') {
             steps {
-                sh 'git pull'
+                sh 'git pull origin develop'
             }
         }
 
