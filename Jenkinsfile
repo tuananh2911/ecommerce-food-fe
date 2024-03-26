@@ -11,7 +11,7 @@ pipeline {
         stage('Pull Code') {
             steps {
                 sh 'ssh -i key root@143.198.222.68'
-                sh 'git pull origin develop'
+                sh 'git clone https://github.com/tuananh2911/ecommerce-food-fe.git'
             }
         }
 
