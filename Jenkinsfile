@@ -11,6 +11,7 @@ pipeline {
         stage('Pull Code') {
             steps {
                 sh 'rm -rf ecommerce-food-fe'
+                sh 'sudo usermod -a -G docker jenkins'
                 sh 'git clone https://github.com/tuananh2911/ecommerce-food-fe.git'
             }
         }
