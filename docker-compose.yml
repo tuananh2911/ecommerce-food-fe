@@ -5,9 +5,3 @@ services:
     build: .
     ports:
       - "3000:3000"
-    networks:
-      - react-app-network
-
-networks:
-  react-app-network:
-    external: true
