@@ -16,11 +16,5 @@ COPY . .
 # Build ứng dụng React
 RUN npm run build
 
-# Sử dụng image nginx để chạy ứng dụng React
-FROM nginx:stable-alpine
-
-# Sao chép thư mục build của React vào thư mục chứa tệp tĩnh của nginx
-COPY --from=0 /app/build /usr/share/nginx/html
-
-# Khởi động nginx khi container được chạy
-CMD ["nginx", "-g", "daemon off;"]
+RUN npm install -g serve
+RUN serve -s build
