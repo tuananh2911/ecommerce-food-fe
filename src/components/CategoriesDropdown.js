@@ -1,69 +1,95 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import GridViewIcon from '@mui/icons-material/GridView';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
 const mockCategories = [
-    { id: 1, name: 'Electronics' },
-    { id: 2, name: 'Clothing' },
-    { id: 3, name: 'Home & Garden' },
-    { id: 4, name: 'Beauty & Personal Care' },
-    { id: 5, name: 'Sports & Outdoors' },
+  { id: 1, name: 'Điện tử', subcategories: [
+    { id: 11, name: 'Tivi' },
+    { id: 12, name: 'Âm thanh' },
+    { id: 13, name: 'Điện lạnh' },
+    { id: 14, name: 'Điện gia dụng' },
+  ] },
+  { id: 2, name: 'Thời trang', subcategories: [
+    { id: 21, name: 'Quần áo nam' },
+    { id: 22, name: 'Quần áo nữ' },
+    { id: 23, name: 'Giày dép' },
+    { id: 24, name: 'Phụ kiện' },
+  ] },
+  { id: 3, name: 'Làm đẹp', subcategories: [
+    { id: 31, name: 'Chăm sóc da' },
+    { id: 32, name: 'Trang điểm' },
+    { id: 33, name: 'Nước hoa' },
+  ] },
 ];
+
 const CategoriesDropdown = () => {
-    const [categories, setCategories] = useState([]);
-    const [anchorEl, setAnchorEl] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [subMenuAnchorEl, setSubMenuAnchorEl] = useState(null);
+  const [subCategories, setSubCategories] = useState([]);
 
-    useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                // const response = await axios.get('/api/categories');
-                console.log(mockCategories)
-                setCategories(mockCategories);
-            } catch (error) {
-                console.error('Error fetching categories:', error);
-            }
-        };
+  useEffect(() => {
+    setCategories(mockCategories);
+  }, []);
 
-        fetchCategories();
-    }, []);
+  const handleMenuOpen = (event, subcategories) => {
+    setSubMenuAnchorEl(event.currentTarget);
+    setSubCategories(subcategories);
+  };
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+  const handleMenuClose = () => {
+    setSubMenuAnchorEl(null);
+  };
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+  const handleSubMenuClose = () => {
+    setSubMenuAnchorEl(null);
+  };
 
-    return (
-        <div className="relative">
-            <Button
-                aria-controls="categories-menu"
-                aria-haspopup="true"
-                onClick={handleClick}
-                className="bg-green-500 text-green flex items-center"
-            >
-                <GridViewIcon /> &nbsp;Browse All Categories <KeyboardArrowDownIcon />
-            </Button>
-            <Menu
-                id="categories-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-                className="mt-2 w-64"
-            >
-                {categories.map((category) => (
-                    <MenuItem key={category.id} onClick={handleClose}>
-                        {category.name}
-                    </MenuItem>
-                ))}
-            </Menu>
-        </div>
-    );
+  return (
+    <div>
+      <Button
+        aria-controls="category-menu"
+        aria-haspopup="true"
+        onClick={(event) => setAnchorEl(event.currentTarget)}
+        startIcon={<GridViewIcon />}
+        endIcon={<KeyboardArrowDownIcon />}
+        variant="contained"
+      >
+        Browse All Categories
+      </Button>
+      <Menu
+        id="category-menu"
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={() => setAnchorEl(null)}
+      >
+        {categories.map((category) => (
+          <MenuItem
+            key={category.id}
+            onMouseEnter={(event) => handleMenuOpen(event, category.subcategories)}
+            onMouseLeave={handleMenuClose}
+          >
+            {category.name}
+          </MenuItem>
+        ))}
+      </Menu>
+      <Menu
+        id="subcategory-menu"
+        anchorEl={subMenuAnchorEl}
+        open={Boolean(subMenuAnchorEl)}
+        onClose={handleSubMenuClose}
+      >
+        {subCategories.map((subcategory) => (
+          <MenuItem key={subcategory.id} onClick={handleSubMenuClose}>
+            {subcategory.name}
+          </MenuItem>
+        ))}
+      </Menu>
+    </div>
+  );
 };
 
 export default CategoriesDropdown;
