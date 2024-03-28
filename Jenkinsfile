@@ -16,7 +16,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'cd ecommerce-food-fe '
+                sh 'cd ecommerce-food-fe'
                 sh 'docker build -t my-react-app .'
             }
         }
