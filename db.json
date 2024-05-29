@@ -1,7 +1,7 @@
 {
   "productData": [
     {
-      "cat_name": "groceries",
+      "cat_name": "Groceries",
       "id": 1,
       "image": "https://cdn-icons-png.flaticon.com/512/3724/3724788.png",
       "items": [
@@ -1437,7 +1437,7 @@
       "rating": 4.5,
       "description": "Good life Moong Dal is procured from reliable and high-quality sources. The beans are best consumed after being sprouted. Dosa with whole moong also turns out to be yummy, another exotic way to eat moong is to eat it as a korma which is spiced up with tangy tomatoes and a cashew paste. It is mainly used as the base for curries such as sambar, dal etc. Buy Good Life Moong Dal online now!",
       "id": 5,
-      "parentCatName": "groceries",
+      "parentCatName": "Groceries",
       "subCatName": "dals and pulses",
       "quantity": 1
     },

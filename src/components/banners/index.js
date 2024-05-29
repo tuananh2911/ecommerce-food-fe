@@ -7,24 +7,24 @@ import './style.css';
 
 const Banners = ()=>{
     return(
-        <div className='bannerSection'>
+        <div >
             <div className='container-fluid'>
                 <div className='row'>
                     <div className='col'>
-                        <div className='box'>
-                            <img src={Banner1} className='w-100 transition' />
+                        <div className='box' >
+                            <a  href="#"><img src={Banner1} className='w-100 transition' /></a>
                         </div>
                     </div>
 
                     <div className='col'>
                         <div className='box'>
-                            <img src={Banner2} className='w-100 transition' />
+                            <a href="#"><img src={Banner2} className='w-100 transition' /></a>
                         </div>
                     </div>
 
                     <div className='col'>
                         <div className='box'>
-                            <img src={Banner3} className='w-100 transition' />
+                            <a href="#"><img src={Banner3} className='w-100 transition' /></a>
                         </div>
                     </div>
 

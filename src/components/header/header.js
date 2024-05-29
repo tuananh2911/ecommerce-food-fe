@@ -31,7 +31,6 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
 const Header = (props) => {
-
     const [isOpenDropDown, setisOpenDropDown] = useState(false);
     const [isOpenAccDropDown, setisOpenAccDropDown] = useState(false);
     
@@ -41,7 +40,7 @@ const Header = (props) => {
 
     const headerRef = useRef();
     const searchInput = useRef()
-
+    const [categories, setcategories] = useState(props.data);
     const context = useContext(MyContext);
     const history = useNavigate();
 
@@ -49,47 +48,12 @@ const Header = (props) => {
 
     }, [context.cartItems])
 
-    const [categories, setcategories] = useState([
-        'Milks and Dairies',
-        'Wines & Drinks',
-        'Clothing & beauty',
-        'Fresh Seafood',
-        'Pet Foods & Toy',
-        'Fast food',
-        'Baking material',
-        'Vegetables',
-        'Fresh Fruit',
-        'Bread and Juice',
-        'Milks and Dairies',
-        'Wines & Drinks',
-        'Clothing & beauty',
-        'Fresh Seafood'
-    ]);
+    useEffect(()=>{
+        setcategories(props.data)
+    },[props.data])
 
 
     const countryList = [];
-
-    useEffect(() => {
-        getCountry('https://countriesnow.space/api/v0.1/countries/');
-    }, []);
-
-    const getCountry = async (url) => {
-        try {
-            await axios.get(url).then((res) => {
-                if (res !== null) {
-                    //console.log(res.data.data);
-                    res.data.data.map((item, index) => {
-                        countryList.push(item.country);
-                        //console.log(item.country)
-                    })
-
-                    //console.log(res.data.data[0].country)
-                }
-            })
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
 
 
     useEffect(() => {
@@ -174,18 +138,9 @@ const Header = (props) => {
                             <div className='col-sm-5 part2'>
                                 <div className={`headerSearch d-flex align-items-center ${isopenSearch === true ? 'open' : ''}`}>
 
-
-                                    {/* {
-                                            windowWidth < 992 &&
-                                            <div className='countryWrapper mb-4 w-100'>
-                                                <Select data={countryList} placeholder={'Your Location'} icon={<LocationOnOutlinedIcon style={{ opacity: '0.5' }} />} />
-                                            </div>
-                                        } */}
-
                                     {
                                         windowWidth < 992 && <div class="closeSearch" onClick={closeSearch}><ArrowBackIosIcon /></div>
                                     }
-                                    <Select data={categories} placeholder={'All Categories'} icon={false} />
 
 
                                     <div className='search'>
@@ -199,18 +154,10 @@ const Header = (props) => {
 
                             <div className='col-sm-5 d-flex align-items-center part3 res-hide'>
                                 <div className='ml-auto d-flex align-items-center'>
-                                    <div className='countryWrapper'>
-                                        <Select data={countryList} placeholder={'Your Location'} icon={<LocationOnOutlinedIcon style={{ opacity: '0.5' }} />} />
-                                    </div>
+                                    
                                     <ClickAwayListener onClickAway={() => setisOpenDropDown(false)}>
                                         <ul className='list list-inline mb-0 headerTabs'>
-                                            <li className='list-inline-item'>
-                                                <span>
-                                                    <img src={IconCompare} />
-                                                    <span className='badge bg-success rounded-circle'>3</span>
-                                                    Compare
-                                                </span>
-                                            </li>
+                                            
                                             <li className='list-inline-item'>
                                                 <span>
                                                     <img src={IconHeart} />
@@ -274,7 +221,7 @@ const Header = (props) => {
                 </header>
 
 
-                <Nav data={props.data} openNav={isOpenNav} closeNav={closeNav} />
+                <Nav data={categories} openNav={isOpenNav} closeNav={closeNav} />
             </div>
 
 
@@ -282,9 +229,6 @@ const Header = (props) => {
             
 
             <div className='afterHeader'></div>
-
-           
-
             {
                 isOpenAccDropDown !== false &&
                 <>

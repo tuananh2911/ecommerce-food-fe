@@ -1,7 +1,7 @@
 const data = {
     "productData": [
       {
-        "cat_name": "groceries",
+        "cat_name": "Groceries",
         "id": 1,
         "image": "https://cdn-icons-png.flaticon.com/512/3724/3724788.png",
         "items": [

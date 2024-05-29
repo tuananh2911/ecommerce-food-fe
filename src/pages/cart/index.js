@@ -11,20 +11,22 @@ import axios from 'axios';
 
 import { useNavigate } from 'react-router-dom';
 
-import { loadStripe } from '@stripe/stripe-js';
-
 const Cart = () => {
     const [cartItems, setCartItems] = useState([])
     const context = useContext(MyContext);
     const history = useNavigate();
 
-    useEffect(() => {
-       if(context.isLogin!=="true"){
-        history("/signIn");
-       }else{
-        setCartItems(context.cartItems);
+    useEffect( () => {
+       const fetchData = async () => {
+           if(context.isLogin!=="true"){
+            history("/signIn");
+           }else{
+            const cartItems = await context.getCartData()
+            setCartItems(context.cartItems);
+           }
        }
-       
+
+       fetchData();
 
         window.scrollTo(0, 0);
 
@@ -54,7 +56,7 @@ const Cart = () => {
     const updateCart = (items) => {
         setCartItems(items)
     }
-
+    console.log('cartItems', cartItems)
 
   
 
@@ -109,6 +111,7 @@ const Cart = () => {
 
                                         <tbody>
                                             {
+                                                
                                                 cartItems.length !== 0 &&
                                                 cartItems.map((item, index) => {
                                                     return (
