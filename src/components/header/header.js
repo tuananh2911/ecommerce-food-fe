@@ -191,7 +191,6 @@ const Header = (props) => {
                                                                 <li><Button className='align-items-center'><Person2OutlinedIcon /> My Account</Button></li>
                                                                 <li><Button><LocationOnOutlinedIcon /> Order Tracking</Button></li>
                                                                 <li><Button><FavoriteBorderOutlinedIcon /> My Wishlist</Button></li>
-                                                                <li><Button><SettingsOutlinedIcon /> Setting</Button></li>
                                                                 <li><Button onClick={signOut}><LogoutOutlinedIcon /> Sign out</Button></li>
                                                             </ul>
                                                         }
@@ -235,11 +234,9 @@ const Header = (props) => {
                 <div className='navbarOverlay' onClick={closeNav}></div>
                 <ul className='dropdownMenu dropdownMenuAcc' onClick={closeNav}>
                     <li><Button className='align-items-center'><Link to=""><Person2OutlinedIcon /> My Account</Link></Button></li>
-                    <li><Button className='align-items-center'><Link to=""> <img src={IconCompare} />Compare</Link></Button></li>
                     <li><Button className='align-items-center'><Link to=""> <img src={IconCart} />Cart</Link></Button></li>
                     <li><Button><Link to=""><LocationOnOutlinedIcon /> Order Tracking</Link></Button></li>
                     <li><Button><Link to=""><FavoriteBorderOutlinedIcon /> My Wishlist</Link></Button></li>
-                    <li><Button><Link to=""><SettingsOutlinedIcon /> Setting</Link></Button></li>
                     <li><Button onClick={signOut}><Link to=""><LogoutOutlinedIcon /> Sign out</Link></Button></li>
                 </ul>
                 </>

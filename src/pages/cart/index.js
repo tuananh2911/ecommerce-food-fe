@@ -10,6 +10,7 @@ import { MyContext } from '../../App';
 import axios from 'axios';
 
 import { useNavigate } from 'react-router-dom';
+import {getCart} from "../../api";
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([])
@@ -21,8 +22,8 @@ const Cart = () => {
            if(context.isLogin!=="true"){
             history("/signIn");
            }else{
-            const cartItems = await context.getCartData()
-            setCartItems(context.cartItems);
+            const cartItems = await getCart()
+            setCartItems(cartItems);
            }
        }
 
@@ -120,34 +121,34 @@ const Cart = () => {
                                                                 <div className='d-flex align-items-center'>
 
                                                                     <div className='img'>
-                                                                        <Link to={`/product/${item.id}`}>
-                                                                            <img src={item.catImg + '?im=Resize=(100,100)'} className='w-100' />
+                                                                        <Link to={`/product/${item.product.id}`}>
+                                                                            <img src={item.product.productAvatar + '?im=Resize=(100,100)'} className='w-100' />
                                                                         </Link>
                                                                     </div>
 
 
                                                                     <div className='info pl-4'>
-                                                                        <Link to={`/product/${item.id}`}><h4>{item.productName}</h4></Link>
+                                                                        <Link to={`/product/${item.product.id}`}><h4>{item.product.name}</h4></Link>
                                                                         <Rating name="half-rating-read"
-                                                                            value={parseFloat(item.rating)} precision={0.5} readOnly /> <span className='text-light'>({parseFloat(item.rating)})</span>
+                                                                            value={parseFloat(item.product.rating)} precision={0.5} readOnly /> <span className='text-light'>({parseFloat(item.product.rating)})</span>
                                                                     </div>
 
                                                                 </div>
                                                             </td>
 
-                                                            <td width="20%"><span>Rs:  {parseInt(item.price.split(",").join(""))}</span></td>
+                                                            <td width="20%"><span>Rs:  {parseInt(item.product.price)}</span></td>
 
                                                             <td>
                                                                 <QuantityBox item={item} cartItems={cartItems} index={index} updateCart={updateCart} />
                                                             </td>
 
                                                             <td>
-                                                                <span className='text-g'>Rs. {parseInt(item.price.split(",").join("")) * parseInt(item.quantity)}</span>
+                                                                <span className='text-g'>Rs. {parseInt(item.product.price) * parseInt(item.quantity)}</span>
                                                             </td>
 
                                                             <td align='center'>
                                                                 <span className='cursor'
-                                                                    onClick={() => context.removeItemsFromCart(item.id)}
+                                                                    onClick={() => context.removeItemsFromCart(item.product.id)}
                                                                 ><DeleteOutlineOutlinedIcon /></span>
                                                             </td>
 
@@ -188,7 +189,7 @@ const Cart = () => {
                                     <h3 className='ml-auto mb-0 font-weight-bold'><span className='text-g'>
                                         {
                                             cartItems.length !== 0 &&
-                                            cartItems.map(item => parseInt(item.price.split(",").join("")) * item.quantity).reduce((total, value) => total + value, 0)
+                                            cartItems.map(item => parseInt(item.product.price) * item.quantity).reduce((total, value) => total + value, 0)
                                         }
                                     </span></h3>
                                 </div>
@@ -210,7 +211,7 @@ const Cart = () => {
                                     <h3 className='ml-auto mb-0 font-weight-bold'><span className='text-g'>
                                         {
                                             cartItems.length !== 0 &&
-                                            cartItems.map(item => parseInt(item.price.split(",").join("")) * item.quantity).reduce((total, value) => total + value, 0)
+                                            cartItems.map(item => parseInt(item.product.price) * item.quantity).reduce((total, value) => total + value, 0)
                                         }
                                     </span></h3>
                                 </div>
@@ -221,7 +222,7 @@ const Cart = () => {
                                     <Button className='btn-g btn-lg'
                                         onClick={() => {
                                             context.setCartTotalAmount( cartItems.length !== 0 &&
-                                                cartItems.map(item => parseInt(item.price.split(",").join("")) * item.quantity).reduce((total, value) => total + value, 0))
+                                                cartItems.map(item => parseInt(item.product.price) * item.quantity).reduce((total, value) => total + value, 0))
                                         }}
                                     >Proceed To CheckOut</Button>
                                 </Link>

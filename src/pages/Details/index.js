@@ -119,11 +119,6 @@ const DetailsPage = (props) => {
             setinputValue(inputValue - 1)
         }
     }
-
-
-
-
-
     useEffect(() => {
         window.scrollTo(0, 0)
 
@@ -139,15 +134,6 @@ const DetailsPage = (props) => {
                             })
                     })
             })
-
-
-
-
-
-
-
-
-        //related products code
 
         const related_products = [];
 
@@ -169,16 +155,12 @@ const DetailsPage = (props) => {
                 }
 
             })
-
-
         if (related_products.length !== 0) {
             setRelatedProducts(related_products)
         }
-
-
         showReviews();
 
-        getCartData("http://localhost:5000/cartItems");
+        getCartData("http://localhost:5000/cart");
 
     }, [id]);
 
