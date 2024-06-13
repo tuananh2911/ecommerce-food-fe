@@ -114,10 +114,10 @@ const Footer = () => {
                                 <p>Awesome grocery store website template</p>
                                 <br />
 
-                                <p><LocationOnOutlinedIcon /> <strong>Address</strong>: 5171 W Campbell Ave undefined Kent, Utah 53127 United States</p>
-                                <p><HeadphonesOutlinedIcon /> <strong>Call Us:</strong> (+91) - 540-025-124553 </p>
-                                <p><EmailOutlinedIcon /> <strong>Email:</strong> sale@Nest.com</p>
-                                <p><WatchLaterOutlinedIcon /> <strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>
+                                <p><LocationOnOutlinedIcon /> <strong>Address</strong>: KM 10 Nguyen Trai, Ha Dong, Ha Noi</p>
+                                <p><HeadphonesOutlinedIcon /> <strong>Call Us:</strong> (+84) - 0397766251 </p>
+                                <p><EmailOutlinedIcon /> <strong>Email:</strong> nest@gmail.com</p>
+                                <p><WatchLaterOutlinedIcon /> <strong>Hours:</strong> 09:00 - 18:00, Mon - Sat</p>
 
                             </div>
 
@@ -206,8 +206,7 @@ const Footer = () => {
 
                         <div className='row lastStrip'>
                             <div className='col-md-3 part_1'>
-                                <p>© 2022, Nest - HTML Ecommerce Template
-                                    All rights reserved</p>
+                                <p>© 2024, Nest. Tất cả các quyền được bảo lưu</p>
                             </div>
 
                             <div className='col-md-6 d-flex part_2'>

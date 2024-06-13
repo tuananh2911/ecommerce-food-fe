@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useContext} from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import SliderBanner from './slider/index';
 import CatSlider from '../../components/catSlider';
 import Banners from '../../components/banners';
@@ -7,14 +7,14 @@ import Product from '../../components/product';
 import Banner4 from '../../assets/images/banner4.jpg';
 import Slider from "react-slick";
 import TopProducts from './TopProducts';
-import {MyContext} from '../../App';
+import { MyContext } from '../../App';
 
 const Home = (props) => {
-
-    const [prodData, setprodData] = useState(props.data)
-    const [popularProducts, setpopularProducts] = useState([]);
-    const [activeTab, setactiveTab] = useState();
-    const [activeTabIndex, setactiveTabIndex] = useState(0);
+    const [prodData, setProdData] = useState(props.data);
+    const [categories, setCategories] = useState(props.categories);
+    const [popularProducts, setPopularProducts] = useState([]);
+    const [activeTab, setActiveTab] = useState(null);
+    const [activeTabIndex, setActiveTabIndex] = useState(0);
     const [activeTabData, setActiveTabData] = useState([]);
     const [bestSells, setBestSells] = useState([]);
     const [isLoadingProducts, setIsLoadingProducts] = useState(false);
@@ -32,25 +32,27 @@ const Home = (props) => {
     };
 
     useEffect(() => {
-        setprodData(props.data);
+        setProdData(props.data);
     }, [props.data]);
 
     useEffect(() => {
+        setCategories(props.categories);
+    }, [props.categories]);
 
+    useEffect(() => {
         if (prodData && prodData.length > 0) {
             const sortedProducts = [...prodData].sort((a, b) => b.purchaseCount - a.purchaseCount);
-            const percentPopular = Math.floor(sortedProducts.length * 0.3);
-            const topProducts = sortedProducts
-            setpopularProducts(topProducts);
-            setactiveTab(topProducts[0]);
+            const topProducts = sortedProducts.slice(0, Math.floor(sortedProducts.length * 0.3));
+            setPopularProducts(topProducts);
+            setActiveTab(categories[0]); // Set default tab to the first category
         }
         window.scrollTo(0, 0);
     }, [prodData]);
 
     useEffect(() => {
-        if (activeTab && prodData.length > 0) {
-            const arr = prodData.map(product => ({...product, parentCatName: product.name, subCatName: product.name}));
-            setActiveTabData(arr);
+        if (activeTab) {
+            const filteredProducts = prodData.filter(product => product.categoryId === activeTab.id);
+            setActiveTabData(filteredProducts);
             setTimeout(() => {
                 setIsLoadingProducts(false);
             }, 1000);
@@ -66,13 +68,13 @@ const Home = (props) => {
             setBestSells(bestSellsArr);
         }
     }, [prodData]);
+
     return (
-        <div style={{display: 'block'}}>
-            <SliderBanner/>
-            <CatSlider data={prodData}/>
+        <div style={{ display: 'block' }}>
+            <SliderBanner />
+            <CatSlider data={categories} />
 
-            <Banners/>
-
+            <Banners />
 
             <section className='homeProducts homeProductWrapper'>
                 <div className='container-fluid'>
@@ -80,94 +82,68 @@ const Home = (props) => {
                         <h2 className='hd mb-0 mt-0 res-full'>Popular Products</h2>
                         <ul className='list list-inline ml-auto filterTab mb-0 res-full'>
                             {
-
-
-                                popularProducts.map((cat, index) => {
-                                    return (
-                                        <li className="list list-inline-item">
-                                            <a className={`cursor text-capitalize 
-                                                ${activeTabIndex === index ? 'act' : ''}`}
-                                               onClick={() => {
-                                                   setactiveTabIndex(index);
-                                                   productRow.current.scrollLeft = 0;
-                                                   setIsLoadingProducts(true);
-                                               }}
-                                            >
-                                                {cat.name}
-                                            </a>
-                                        </li>
-                                    )
-                                })
+                                categories.map((cat, index) => (
+                                    <li className="list list-inline-item" key={index}>
+                                        <a
+                                            className={`cursor text-capitalize ${activeTabIndex === index ? 'act' : ''}`}
+                                            onClick={() => {
+                                                setActiveTabIndex(index);
+                                                setActiveTab(cat);
+                                                productRow.current.scrollLeft = 0;
+                                                setIsLoadingProducts(true);
+                                            }}
+                                        >
+                                            {cat.name}
+                                        </a>
+                                    </li>
+                                ))
                             }
-
                         </ul>
                     </div>
 
-
-                    <div className={`productRow ${isLoadingProducts === true && 'loading'}`} ref={productRow}>
-
+                    <div className={`productRow ${isLoadingProducts === true ? 'loading' : ''}`} ref={productRow}>
                         {
                             activeTabData.length !== 0 &&
-                            activeTabData.map((item, index) => {
-                                return (
-                                    <div className='item' key={index}>
-
-                                        <Product tag={item.name} item={item}/>
-                                    </div>
-                                )
-                            })
+                            activeTabData.map((item, index) => (
+                                <div className='item' key={index}>
+                                    <Product tag={`-${item.discount * 100}%`} item={item} />
+                                </div>
+                            ))
                         }
-
                     </div>
-
                 </div>
             </section>
-
 
             <section className='homeProducts homeProductsRow2 pt-0'>
                 <div className='container-fluid'>
                     <div className='d-flex align-items-center'>
                         <h2 className='hd mb-0 mt-0'>Daily Best Sells</h2>
-
                     </div>
 
-                    <br className='res-hide'/><br className='res-hide'/>
+                    <br className='res-hide' /><br className='res-hide' />
                     <div className='row'>
                         <div className='col-md-3 pr-5 res-hide'>
                             <a href="https://themepanthers.com/wp/nest/d1/product-category/deals-of-the-day/"><img
-                                src={Banner4} className='w-100'/></a>
+                                src={Banner4} className='w-100' /></a>
                         </div>
 
                         <div className='col-md-9'>
                             <Slider {...settings} className='prodSlider'>
                                 {
                                     bestSells.length !== 0 &&
-                                    bestSells.map((item, index) => {
-                                        return (
-                                            <div className='item' key={index}>
-                                                <Product tag={item.name} item={item}/>
-                                            </div>
-                                        )
-                                    })
+                                    bestSells.map((item, index) => (
+                                        <div className='item' key={index}>
+                                            <Product tag={`-${item.discount * 100}%`} item={item} />
+                                        </div>
+                                    ))
                                 }
-
                             </Slider>
                         </div>
                     </div>
-
-
                 </div>
             </section>
-
-
         </div>
-    )
+    );
 }
 
 export default Home;
-
-
-
-
-
-

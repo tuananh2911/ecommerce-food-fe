@@ -8,7 +8,7 @@ header .headerSearch .search{width:100%; padding-left: 30px; position: relative;
 header .headerSearch .search input{width: 100%; height: 50px; border: 0px; outline: none !important; font-size: 18px;}
 header .headerSearch .search .searchIcon{position: absolute; top: 12px; right:0px; opacity: 0.5; font-size: 30px !important;}
 
-.afterHeader{margin-top: 210px;}
+.afterHeader{margin-top: 250px;}
 
 
 header .countryWrapper .selectDropWrapper{width: 200px !important; height: 50px;  padding-left: 10px; display: flex; align-items: center;      border: 1px solid #ececec;

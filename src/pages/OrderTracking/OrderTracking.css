@@ -1,0 +1,55 @@
+.order-tracking-container {
+    padding: 20px;
+    margin: 40px auto; /* Thêm margin trên và dưới */
+    width:  100rem;
+}
+
+.order-card {
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between; /* Căn đều không gian giữa các phần tử */
+    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+}
+
+.product-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.total-amount {
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 20px !important;
+    font-size: 1.2rem; /* Tăng kích thước chữ */
+}
+
+.action-buttons {
+    align-items: flex-end; /* Căn các nút sang phải */
+    display: inline-block;
+    padding: 4px;
+}
+
+.action-button {
+    margin-top: 10px;
+    margin-right: 10px !important;
+    font-size: 1rem; /* Tăng kích thước chữ */
+
+}
+
+.order-details {
+    flex-grow: 1;
+    margin-left: 20px;
+    max-width: 600px; /* Đặt chiều rộng tối đa để tránh đẩy nút */
+}
+
+.order-details .MuiTypography-root {
+    font-size: 1rem; /* Tăng kích thước chữ */
+}
+
+.shop-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+}

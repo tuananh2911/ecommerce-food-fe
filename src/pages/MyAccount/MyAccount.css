@@ -1,0 +1,52 @@
+.account-container {
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100rem;
+    margin: 40px auto; /* Thêm margin trên và dưới */
+}
+
+.account-container h3 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 2.5rem; /* Tăng kích thước chữ */
+}
+
+.account-container .MuiTypography-subtitle2 {
+    font-size: 1.2rem; /* Tăng kích thước chữ */
+}
+
+.account-container .MuiTypography-body2 {
+    font-size: 1.1rem; /* Tăng kích thước chữ */
+}
+
+.account-container .MuiFormControl-root {
+    margin-bottom: 20px;
+}
+
+.account-container .MuiButton-root {
+    margin-top: 20px;
+    font-size: 1.2rem; /* Tăng kích thước chữ trong nút */
+    padding: 15px 30px; /* Tăng kích thước padding */
+}
+
+.account-container .MuiTextField-root {
+    font-size: 1.2rem; /* Tăng kích thước chữ trong ô nhập liệu */
+}
+
+.account-container .MuiFormLabel-root {
+    font-size: 1.2rem; /* Tăng kích thước chữ trong label */
+}
+
+.account-container .MuiInputBase-input {
+    font-size: 1.2rem; /* Tăng kích thước chữ trong ô nhập liệu */
+}
+
+.account-container .MuiButton-label {
+    font-size: 1.2rem; /* Tăng kích thước chữ trong nút */
+}
+
+.account-container .MuiFormControlLabel-label {
+    font-size: 1.2rem; /* Tăng kích thước chữ trong radio button labels */
+}

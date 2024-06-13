@@ -7,7 +7,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 
 const QuantityBox = (props) => {
-    const [inputValue, setinputValue] = useState(1);
+    const [inputValue, setinputValue] = useState(props.item.quantity);
     const [cartItems, setcartItems] = useState([]);
 
     useEffect(() => {
@@ -19,18 +19,6 @@ const QuantityBox = (props) => {
     const updateCart=(items)=>{
         props.updateCart(items)
     }
-
-
-
-    // const plus = () => {
-    //     setinputValue(inputValue + 1)
-    // }
-
-    // const minus = () => {
-    //     if (inputValue !== 1) {
-    //         setinputValue(inputValue - 1)
-    //     }
-    // }
 
 
 

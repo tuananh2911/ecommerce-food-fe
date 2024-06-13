@@ -57,7 +57,6 @@ const Nav = (props) => {
     };
 
     const splitIntoColumns = (data, itemsPerColumn) => {
-        console.log('data',data)
         let result = [];
         for (let i = 0; i < data.length; i += itemsPerColumn) {
             result.push(data.slice(i, i + itemsPerColumn));
@@ -66,7 +65,6 @@ const Nav = (props) => {
     };
 
     const columns = splitIntoColumns(navData, 3);
-    console.log('columns', columns)
 
     return (
         <>
@@ -88,7 +86,7 @@ const Nav = (props) => {
                                                         <Link to={`/cat/${category.name}`}>
                                                             <span className='category-icon'>{getCategoryIcon(category.name)}</span>
                                                             <span className='category-name'>{category.name}</span>
-                                                            <span className='category-count'>5</span>
+                                                            <span className='category-count'>{category.products.length}</span>
                                                         </Link>
                                                     </li>
                                                 ))}
