@@ -4,7 +4,7 @@ import Rating from '@mui/material/Rating';
 import InnerImageZoom from 'react-inner-image-zoom';
 import 'react-inner-image-zoom/lib/InnerImageZoom/styles.css';
 import Slider from 'react-slick';
-import { Button } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
@@ -12,22 +12,22 @@ import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import Product from '../../components/product';
 import axios from 'axios';
 import { MyContext } from '../../App';
+import { UserContext } from '../../context/UserContext';
 
 const DetailsPage = (props) => {
     const { productData } = useContext(MyContext);
-    console.log('productDaât',MyContext)
     const [currentProduct, setCurrentProduct] = useState({});
     const [isAdded, setIsAdded] = useState(false);
     const context = useContext(MyContext);
+    const { user } = useContext(UserContext);
     const [relatedProducts, setRelatedProducts] = useState([]);
     const [reviewsArr, setReviewsArr] = useState([]);
     const [isAlreadyAddedInCart, setIsAlreadyAddedInCart] = useState(false);
     const [reviewFields, setReviewFields] = useState({
         review: '',
-        userName: '',
+        userId: user?.id,
         rating: 0.0,
         productId: 0,
-        date: '',
     });
 
     const zoomSliderBig = useRef();
@@ -49,7 +49,7 @@ const DetailsPage = (props) => {
         dots: false,
         infinite: false,
         speed: 500,
-        slidesToShow: 4, // Giảm số lượng hình ảnh hiển thị
+        slidesToShow: 4,
         slidesToScroll: 1,
         fade: false,
         arrows: context.windowWidth > 992 ? true : false,
@@ -72,23 +72,15 @@ const DetailsPage = (props) => {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-
-        const currentProductData = productData.find(
-            (product) => product.id === parseInt(id)
-        );
-        if (currentProductData) {
-            setCurrentProduct(currentProductData);
-        }
-
+        const currentProductData = productData.find((product) => product.id === parseInt(id));
+        setCurrentProduct(currentProductData);
+        setReviewsArr(currentProductData?.reviews);
         const related_products = productData.filter(
             (product) =>
                 product.categoryId === currentProductData.categoryId &&
                 product.id !== parseInt(id)
         );
         setRelatedProducts(related_products);
-
-        showReviews();
-        getCartData('http://localhost:5000/api/carts');
     }, [id, productData]);
 
     const changeInput = (name, value) => {
@@ -111,32 +103,29 @@ const DetailsPage = (props) => {
         e.preventDefault();
 
         try {
-            await axios
-                .post('http://localhost:5000/api/productReviews', reviewFields)
-                .then((response) => {
-                    setReviewFields({
-                        review: '',
-                        userName: '',
-                        rating: 0.0,
-                        productId: 0,
-                        date: '',
-                    });
-                });
+            await axios.post('http://localhost:5000/api/reviews', reviewFields);
+            setReviewFields({
+                review: '',
+                userId: user?.id,
+                rating: 0.0,
+                productId: currentProduct?.id,
+            });
+            // Load lại phần bình luận sau khi submit thành công
+            await loadReviews();
         } catch (error) {
             console.log(error.message);
         }
-
-        showReviews();
     };
 
-    const showReviews = async () => {
+    const loadReviews = async () => {
+        console.log('load')
         try {
-            await axios.get('http://localhost:5000/api/productReviews').then((response) => {
-                const productReviews = response.data.filter(
-                    (review) => review.productId === parseInt(id)
-                );
-                setReviewsArr(productReviews);
-            });
+            const response = await axios.get('http://localhost:5000/api/products');
+            const productReviews = response.data.filter(
+                (product) => product.id === parseInt(id)
+            );
+            setReviewsArr(productReviews.reviews);
+            console.log('ReviewsArr', reviewsArr)
         } catch (error) {
             console.log(error.message);
         }
@@ -145,19 +134,6 @@ const DetailsPage = (props) => {
     const addToCart = (item) => {
         context.addToCart(item);
         setIsAdded(true);
-    };
-
-    const getCartData = async (url) => {
-        try {
-            await axios.get(url).then((response) => {
-                const isProductInCart = response.data.some(
-                    (item) => item.id === parseInt(id)
-                );
-                setIsAlreadyAddedInCart(isProductInCart);
-            });
-        } catch (error) {
-            console.log(error.message);
-        }
     };
 
     return (
@@ -182,10 +158,10 @@ const DetailsPage = (props) => {
                     <div className="row">
                         {/* Product Zoom */}
                         <div className="col-md-5">
-                            <div className="productZoom" style={{height: '600px'}}>
+                            <div className="productZoom" style={{ height: '600px' }}>
                                 <Slider {...settings2} className="zoomSliderBig" ref={zoomSliderBig}>
-                                    {currentProduct.image &&
-                                        currentProduct.image.map((img, index) => (
+                                    {currentProduct?.image &&
+                                        currentProduct?.image.map((img, index) => (
                                             <div className="item" key={index}>
                                                 <InnerImageZoom
                                                     src={img.url}
@@ -201,15 +177,15 @@ const DetailsPage = (props) => {
                             </div>
 
                             <Slider {...settings} className="zoomSlider" ref={zoomSlider}>
-                                {currentProduct.image &&
-                                    currentProduct.image.map((img, index) => (
+                                {currentProduct?.image &&
+                                    currentProduct?.image.map((img, index) => (
                                         <div className="item" key={index}>
                                             <img
-                                                src={img.url}
+                                                src={img?.url}
                                                 className="w-100 thumbnail"
                                                 onClick={() => goto(index)}
-                                                alt={currentProduct.name}
-                                                style={{ width: '150px', height: '150px', objectFit: 'cover' }} // Tăng kích thước thumbnail
+                                                alt={currentProduct?.name}
+                                                style={{ width: '150px', height: '150px', objectFit: 'cover' }}
                                             />
                                         </div>
                                     ))}
@@ -218,42 +194,42 @@ const DetailsPage = (props) => {
 
                         {/* Product Info */}
                         <div className="col-md-7 productInfo">
-                            <h1>{currentProduct.name}</h1>
+                            <h1>{currentProduct?.name}</h1>
                             <div className="d-flex align-items-center mb-4 mt-3">
                                 <Rating
                                     name="half-rating-read"
                                     value={
-                                        currentProduct.reviews
-                                            ? currentProduct.reviews.reduce(
+                                        currentProduct?.reviews
+                                            ? currentProduct?.reviews.reduce(
                                             (sum, review) => sum + review.rating,
                                             0
-                                        ) / currentProduct.reviews.length
+                                        ) / currentProduct?.reviews.length
                                             : 0
                                     }
                                     precision={0.5}
                                     readOnly
                                 />
                                 <span className="text-light ml-2">
-                  ({currentProduct.reviews ? currentProduct.reviews.length : 0}{' '}
+                                    ({currentProduct?.reviews ? currentProduct?.reviews.length : 0}{' '}
                                     reviews)
-                </span>
+                                </span>
                             </div>
 
                             <div className="priceSec d-flex align-items-center mb-3">
-                <span className="text-g priceLarge">
-                  {currentProduct.price}đ
-                </span>
+                                <span className="text-g priceLarge">
+                                    {currentProduct?.price}đ
+                                </span>
                                 <div className="ml-3 d-flex flex-column">
-                  <span className="text-org">
-                    {(currentProduct.discount * 100).toFixed(0)}% Off
-                  </span>
+                                    <span className="text-org">
+                                        {(currentProduct?.discount * 100).toFixed(0)}% Off
+                                    </span>
                                     <span className="text-light oldPrice">
-                    {currentProduct.originalPrice}đ
-                  </span>
+                                        {currentProduct?.originalPrice}đ
+                                    </span>
                                 </div>
                             </div>
 
-                            <p>{currentProduct.description}</p>
+                            <p>{currentProduct?.description}</p>
 
                             {/* Product Size/Weight */}
                             {/* ... */}
@@ -284,7 +260,43 @@ const DetailsPage = (props) => {
 
                     {/* Product Tabs */}
                     <div className="card mt-5 p-5 detailsPageTabs">
-                        {/* ... */}
+                        <h3>Reviews</h3>
+                        {reviewsArr?.length > 0 ? (
+                            <div>
+                                {reviewsArr?.map((review, index) => (
+                                    <div key={index} className="review mb-4">
+                                        <h4>{review.customer.username}</h4>
+                                        <Rating value={review.rating} readOnly />
+                                        <p>{review.review}</p>
+                                        <small>{review.date}</small>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p>No reviews yet.</p>
+                        )}
+                        <h3>Write a Review</h3>
+                        <form onSubmit={submitReview}>
+                            <Rating
+                                name="rating"
+                                value={reviewFields.rating}
+                                onChange={(e, value) => changeInput('rating', value)}
+                                className="mb-3"
+                            />
+                            <TextField
+                                label="Review"
+                                variant="outlined"
+                                value={reviewFields.review}
+                                onChange={(e) => changeInput('review', e.target.value)}
+                                className="mb-3"
+                                multiline
+                                rows={4}
+                                fullWidth
+                            />
+                            <Button type="submit" variant="contained" color="primary">
+                                Submit Review
+                            </Button>
+                        </form>
                     </div>
 
                     <br />
@@ -306,16 +318,16 @@ const DetailsPage = (props) => {
             </section>
 
             <style jsx>{`
-        .zoom-image {
-            max-width: 100%;
-            max-height: 500px;
-            object-fit: contain;
-        }
+                .zoom-image {
+                    max-width: 100%;
+                    max-height: 500px;
+                    object-fit: contain;
+                }
 
-        .thumbnail {
-          cursor: pointer;
-        }
-      `}</style>
+                .thumbnail {
+                    cursor: pointer;
+                }
+            `}</style>
         </>
     );
 };

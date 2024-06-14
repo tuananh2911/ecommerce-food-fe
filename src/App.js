@@ -47,16 +47,18 @@ function App() {
         const fetchCartData = async () => {
             try {
                 const cartData = await getCart();
+                setCartItems(cartData);
                 context.setCartItems(cartData); // Sử dụng setCartItems từ context
             } catch (error) {
                 console.error('Error fetching cart data:', error);
             }
         };
 
-        if (context?.isLogin === "true") {
+        if (user) {
             fetchCartData();
         }
-    }, [context?.isLogin, getCart]);
+    }, [user]);
+    console.log('cartData',cartItems)
     useEffect(() => {
 
         fetchData();
