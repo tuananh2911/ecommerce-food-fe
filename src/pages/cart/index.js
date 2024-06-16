@@ -110,7 +110,7 @@ const Cart = () => {
                                                                 <div className='d-flex align-items-center'>
                                                                     <div className='img'>
                                                                         <Link to={`/product/${product.id}`}>
-                                                                            <img src={product.image[0].url}
+                                                                            <img src={product?.image[0]?.url}
                                                                                  className='w-100'/>
                                                                         </Link>
                                                                     </div>

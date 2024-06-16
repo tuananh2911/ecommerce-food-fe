@@ -80,7 +80,7 @@ const Checkout = (props) => {
                                         <Grid container spacing={2}>
                                             <Grid item xs={4}>
                                                 <img
-                                                    src={item.image[0].url}
+                                                    src={item?.image[0]?.url}
                                                     alt={item.name}
                                                     style={{width: '100%', borderRadius: 8}}
                                                 />
