@@ -58,7 +58,7 @@ const Product = (props) => {
                     <Link to={`/product/${productData.id}`}>
                         <div className='imgWrapper'>
                             <div className='p-4 wrapper mb-3'>
-                                <img src={productData.image[0].url} className='w-100'/>
+                                <img src={productData.image[0]?.url} className='w-100'/>
                             </div>
 
                             <div className='overlay transition'>
