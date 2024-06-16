@@ -1,8 +1,9 @@
-import React, {useEffect, useState, createContext, useContext} from 'react';
+import React, { useEffect, useState, createContext, useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './responsive.css';
-import {BrowserRouter, Routes, Route, useNavigate} from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 
 import Header from './components/header/header';
 import Footer from './components/footer/footer';
@@ -23,7 +24,7 @@ import useApi from "./api";
 import Wishlist from "./components/wishlist";
 import MyAccount from "./pages/MyAccount/MyAccount";
 import OrderTracking from "./pages/OrderTracking/OrderTracking";
-import {UserContext} from "./context/UserContext";
+import { UserContext } from "./context/UserContext";
 
 const MyContext = createContext();
 
@@ -37,10 +38,10 @@ function App() {
     const [isopenNavigation, setIsopenNavigation] = useState(false);
     const [isLogin, setIsLogin] = useState();
     const [isOpenFilters, setIsopenFilters] = useState(false);
-    const {user} = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const [cartTotalAmount, setCartTotalAmount] = useState();
     const [wishlist, setWishlist] = useState([]);
-    const {getProductData, getCategoryData, getCart} = useApi();
+    const { getProductData, getCategoryData, getCart } = useApi();
     const context = useContext(MyContext);
     useEffect(() => {
         const fetchCartData = async () => {
@@ -57,7 +58,7 @@ function App() {
             fetchCartData();
         }
     }, [user]);
-    console.log('cartData',cartItems)
+    console.log('cartData', cartItems)
     useEffect(() => {
 
         fetchData();
@@ -73,6 +74,12 @@ function App() {
     useEffect(() => {
         localStorage.setItem('wishlist', JSON.stringify(wishlist));
     }, [wishlist]);
+    // const checkIsLogin = () => {
+    //     if (localStorage.getItem('isLogin') === false) {
+    //         return false;
+    //     }
+    //     return true;
+    // }
     useEffect(() => {
         setIsLogin(localStorage.getItem('isLogin'));
     }, [localStorage.getItem('isLogin')]);
@@ -180,26 +187,27 @@ function App() {
         <BrowserRouter>
             <MyContext.Provider value={value}>
                 {
-                    isLoading === true && <div className='loader'><img src={Loader}/></div>
+                    isLoading === true && <div className='loader'><img src={Loader} /></div>
                 }
 
-                <Header data={categories}/>
+                <Header data={categories} />
                 <Routes>
+
                     <Route exact={true} path="/" element={<Home data={productData} categories={categories}/>}/>
                     <Route exact={true} path="/cat/:id" element={<Listing categories={categories} data={productData} single={true}/>}/>
                     <Route exact={true} path="/cat/:id/:id"
-                           element={<Listing data={data.productData} single={false}/>}/>
-                    <Route exact={true} path="/wishlist" element={<Wishlist/>}/>
-                    <Route exact={true} path="/account" element={<MyAccount/>}/>
-                    <Route exact={true} path="/order-tracking" element={<OrderTracking/>}/>
-                    <Route exact={true} path="/product/:id" element={<DetailsPage/>}/>
-                    <Route exact={true} path="/cart" element={<Cart/>}/>
-                    <Route exact={true} path="/signIn" element={<SignIn/>}/>
-                    <Route exact={true} path="/signUp" element={<SignUp/>}/>
-                    <Route exact={true} path="/checkout" element={<Checkout/>}/>
-                    <Route exact={true} path="*" element={<NotFound/>}/>
+                        element={<Listing data={data.productData} single={false} />} />
+                    <Route exact={true} path="/wishlist" element={<Wishlist />} />
+                    <Route exact={true} path="/account" element={<MyAccount />} />
+                    <Route exact={true} path="/order-tracking" element={<OrderTracking />} />
+                    <Route exact={true} path="/product/:id" element={<DetailsPage />} />
+                    <Route exact={true} path="/cart" element={<Cart />} />
+                    <Route exact={true} path="/signIn" element={<SignIn />} />
+                    <Route exact={true} path="/signUp" element={<SignUp />} />
+                    <Route exact={true} path="/checkout" element={<Checkout />} />
+                    <Route exact={true} path="*" element={<NotFound />} />
                 </Routes>
-                <Footer/>
+                <Footer />
             </MyContext.Provider>
         </BrowserRouter>
     );
@@ -207,4 +215,4 @@ function App() {
 
 export default App;
 
-export {MyContext}
+export { MyContext }

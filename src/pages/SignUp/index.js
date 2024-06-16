@@ -8,61 +8,70 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 import { Button } from '@mui/material';
 import { useState } from 'react';
 import GoogleImg from '../../assets/images/google.png';
-
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { app } from '../../firebase';
-
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
-const auth = getAuth(app);
-
-
 const SignUp = () => {
-
     const [showPassword, setShowPassword] = useState(false);
     const [showPassword1, setShowPassword1] = useState(false);
-
     const [showLoader, setShowLoader] = useState(false);
-
-
     const [formFields, setFormFields] = useState({
         email: '',
+        name: '',
+        username: '',
         password: '',
         conformPassword: ''
-    })
+    });
 
     const signUp = () => {
-        if(formFields.email!=="" && formFields.password!=="" && formFields.conformPassword!==""){
+        if (formFields.email !== "" && formFields.password !== "" && formFields.conformPassword !== "") {
+            if (formFields.password !== formFields.conformPassword) {
+                alert("Mật khẩu không khớp");
+                return;
+            }
             setShowLoader(true);
-            createUserWithEmailAndPassword(auth, formFields.email, formFields.password)
-                .then((userCredential) => {
-                    // Signed up 
-                    const user = userCredential.user;
+
+            // Tạo payload để gửi đi
+            const payload = {
+                name: formFields.name,
+                username: formFields.username,
+                email: formFields.email,
+                password: formFields.password,
+            };
+
+            // Gửi yêu cầu POST
+            fetch("http://localhost:5000/api/customers/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+                .then(response => response.json())
+                .then(data => {
                     setShowLoader(false);
-                    setFormFields({
-                        email:'',
-                        password:'',
-                        conformPassword:''
-                    })
-                    // ...
+                    if (data.statuscode === 200) {
+                        // Giả sử API gửi trường 'success' để chỉ thành công
+                        setFormFields({
+                            username: '',
+                            name: '',
+                            email: '',
+                            password: '',
+                            conformPassword: ''
+                        });
+                        alert("Đăng ký thành công!");
+                    } else {
+                        alert(data.message || "Đăng ký thất bại");
+                    }
                 })
                 .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    alert(error.message);
                     setShowLoader(false);
-                    // ..
+                    alert("Lỗi: " + error.message);
                 });
+        } else {
+            alert("Vui lòng điền đầy đủ thông tin");
         }
-
-        else{
-            alert("Please fill all the details");
-        }
-       
-    }
-
+    };
 
     const onChangeField = (e) => {
         const name = e.target.name;
@@ -71,28 +80,23 @@ const SignUp = () => {
         setFormFields(() => ({
             ...formFields,
             [name]: value,
-        }))
-
-    }
-
+        }));
+    };
 
     return (
         <>
             <section className='signIn mb-5'>
-                <div class="breadcrumbWrapper res-hide">
-                    <div class="container-fluid">
-                        <ul class="breadcrumb breadcrumb2 mb-0">
-                            <li><Link to="/">Home</Link>  </li>
-                            <li>SignUp</li>
+                <div className="breadcrumbWrapper res-hide">
+                    <div className="container-fluid">
+                        <ul className="breadcrumb breadcrumb2 mb-0">
+                            <li><Link to="/">Trang Chủ</Link></li>
+                            <li>Đăng Ký</li>
                         </ul>
                     </div>
                 </div>
 
-
-
                 <div className='loginWrapper'>
                     <div className='card shadow'>
-
                         <Backdrop
                             sx={{ color: '#000', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                             open={showLoader}
@@ -101,58 +105,49 @@ const SignUp = () => {
                             <CircularProgress color="inherit" />
                         </Backdrop>
 
-                        <h3>SignUp</h3>
+                        <h3>Đăng Ký</h3>
                         <form className='mt-4'>
                             <div className='form-group mb-4 w-100'>
-                                <TextField id="email" type="email" name='email' label="Email" className='w-100' onChange={onChangeField}  value={formFields.email}/>
+                                <TextField id="name" type="" name='name' label="Họ và tên" className='w-100' onChange={onChangeField} value={formFields.name} />
                             </div>
                             <div className='form-group mb-4 w-100'>
+                                <TextField id="username" type="" name='username' label="Tên tài khoản" className='w-100' onChange={onChangeField} value={formFields.username} />
+                            </div>
+                            <div className='form-group mb-4 w-100'>
+                                <TextField id="email" type="email" name='email' label="Email" className='w-100' onChange={onChangeField} value={formFields.email} />
+                            </div>
+
+                            <div className='form-group mb-4 w-100'>
                                 <div className='position-relative'>
-                                    <TextField id="password" type={showPassword === false ? 'password' : 'text'} name='password' label="Password" className='w-100' onChange={onChangeField} 
-                                     value={formFields.password}/>
+                                    <TextField id="password" type={showPassword === false ? 'password' : 'text'} name='password' label="Mật Khẩu" className='w-100' onChange={onChangeField} value={formFields.password} />
                                     <Button className='icon' onClick={() => setShowPassword(!showPassword)}>
-                                        {
-                                            showPassword === false ? <VisibilityOffOutlinedIcon /> : <VisibilityOutlinedIcon />
-                                        }
-
+                                        {showPassword === false ? <VisibilityOffOutlinedIcon /> : <VisibilityOutlinedIcon />}
                                     </Button>
                                 </div>
-
                             </div>
 
                             <div className='form-group mb-4 w-100'>
                                 <div className='position-relative'>
-                                    <TextField id="conformPassword" type={showPassword1 === false ? 'password' : 'text'} name='conformPassword' label="Confirm Password" className='w-100' onChange={onChangeField}  value={formFields.conformPassword}/>
+                                    <TextField id="conformPassword" type={showPassword1 === false ? 'password' : 'text'} name='conformPassword' label="Xác Nhận Mật Khẩu" className='w-100' onChange={onChangeField} value={formFields.conformPassword} />
                                     <Button className='icon' onClick={() => setShowPassword1(!showPassword1)}>
-                                        {
-                                            showPassword1 === false ? <VisibilityOffOutlinedIcon /> : <VisibilityOutlinedIcon />
-                                        }
-
+                                        {showPassword1 === false ? <VisibilityOffOutlinedIcon /> : <VisibilityOutlinedIcon />}
                                     </Button>
                                 </div>
-
                             </div>
-
 
                             <div className='form-group mt-5 mb-4 w-100'>
-                                <Button className='btn btn-g btn-lg w-100' onClick={signUp}>Sign Up</Button>
+                                <Button className='btn btn-g btn-lg w-100' onClick={signUp}>Đăng Ký</Button>
                             </div>
 
-                            <p className='text-center'>Already have an account
-                                <b> <Link to="/signIn">Sign In</Link>
-                                </b>
+                            <p className='text-center'>Đã có tài khoản?
+                                <b><Link to="/signIn"> <span style={{marginLeft: '2px'}}>Đăng Nhập</span> </Link></b>
                             </p>
-
-
-
                         </form>
                     </div>
                 </div>
-
-
             </section>
         </>
-    )
-}
+    );
+};
 
 export default SignUp;

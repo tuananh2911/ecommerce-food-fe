@@ -60,8 +60,8 @@ const SignIn = () => {
                     localStorage.setItem('jwtToken', jwtToken);
                     setShowLoader(false);
                     localStorage.setItem('isLogin', true);
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    setUserContext(data.user); // Cập nhật context
+                    localStorage.setItem('user', JSON.stringify(data));
+                    setUserContext(data); // Cập nhật context
                     navigate('/');
                 } else {
                     alert(data.message);
@@ -91,12 +91,15 @@ const SignIn = () => {
             });
 
             const data = await response.json();
+            console.log("vietanhtest", data);
             if (response.ok) {
                 const jwtToken = data.access_token;
                 localStorage.setItem('jwtToken', jwtToken);
-                setShowLoader(false);
                 localStorage.setItem('isLogin', true);
-                localStorage.setItem('user', JSON.stringify(data.user));
+                setShowLoader(false);
+
+                localStorage.setItem('user', JSON.stringify(data));
+
                 setUserContext(data); // Cập nhật context
                 navigate('/');
             } else {
