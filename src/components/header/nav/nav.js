@@ -141,10 +141,7 @@ const Nav = (props) => {
                                         </div>
                                     </li>
                                     <li className='list-inline-item'>
-                                        <Button><Link>Blog</Link></Button>
-                                    </li>
-                                    <li className='list-inline-item'>
-                                        <Button><Link>Contact</Link></Button>
+                                        <Button><Link to={'https://admin.huycodelo.id.vn/dashboard'}>Become Seller</Link></Button>
                                     </li>
                                 </ul>
                                 {windowWidth < 992 && context.isLogin !== "true" && (
