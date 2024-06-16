@@ -80,25 +80,6 @@ const Home = (props) => {
                 <div className='container-fluid'>
                     <div className='d-flex align-items-center homeProductsTitleWrap'>
                         <h2 className='hd mb-0 mt-0 res-full'>Popular Products</h2>
-                        <ul className='list list-inline ml-auto filterTab mb-0 res-full'>
-                            {
-                                categories.map((cat, index) => (
-                                    <li className="list list-inline-item" key={index}>
-                                        <a
-                                            className={`cursor text-capitalize ${activeTabIndex === index ? 'act' : ''}`}
-                                            onClick={() => {
-                                                setActiveTabIndex(index);
-                                                setActiveTab(cat);
-                                                productRow.current.scrollLeft = 0;
-                                                setIsLoadingProducts(true);
-                                            }}
-                                        >
-                                            {cat.name}
-                                        </a>
-                                    </li>
-                                ))
-                            }
-                        </ul>
                     </div>
 
                     <div className={`productRow ${isLoadingProducts === true ? 'loading' : ''}`} ref={productRow}>

@@ -125,7 +125,7 @@ const Sidebar = (props) => {
                         {
                             props.data.length !== 0 && props.data.map((item, index) => {
                                 return (
-                                    <Link to={`/cat/${item.cat_name.toLowerCase()}`}>
+                                    <Link to={`/cat/${item.id}`}>
                                         <div className='catItem d-flex align-items-center'>
                                             <span className='img'><img src='https://wp.alithemes.com/html/nest/demo/assets/imgs/theme/icons/category-1.svg' width={30} /></span>
                                             <h4 className='mb-0 ml-3 mr-3 text-capitalize'>{item.cat_name}</h4>
