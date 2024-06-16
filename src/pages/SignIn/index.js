@@ -97,7 +97,9 @@ const SignIn = () => {
                 localStorage.setItem('jwtToken', jwtToken);
                 localStorage.setItem('isLogin', true);
                 setShowLoader(false);
+
                 localStorage.setItem('user', JSON.stringify(data));
+
                 setUserContext(data); // Cập nhật context
                 navigate('/');
             } else {

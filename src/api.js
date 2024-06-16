@@ -11,7 +11,18 @@ const useApi = () => {
     const checkAuth = () => {
         return user && user.id;
     };
+    const getOrders = async (customerId) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/api/orders/customer?customerId=${customerId}`);
+            const orders = response.data;
 
+            // Sửa đổi URL hình ảnh cho từng sản phẩm
+            return orders
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            return [];
+        }
+    }
     const getProductData = async () => {
         try {
             const response = await axios.get("http://localhost:5000/api/products");
@@ -76,7 +87,8 @@ const useApi = () => {
     return {
         getProductData,
         getCategoryData,
-        getCart
+        getCart,
+        getOrders
     };
 };
 

@@ -4,6 +4,7 @@ import './App.css';
 import './responsive.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+
 import Header from './components/header/header';
 import Footer from './components/footer/footer';
 import Home from './pages/Home/index';
@@ -35,7 +36,6 @@ function App() {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [categories, setCategories] = useState([]);
     const [isopenNavigation, setIsopenNavigation] = useState(false);
-
     const [isLogin, setIsLogin] = useState();
     const [isOpenFilters, setIsopenFilters] = useState(false);
     const { user } = useContext(UserContext);
@@ -106,6 +106,10 @@ function App() {
 
     const addToCart = async (item) => {
         item.quantity = 1;
+        if (!user) {
+            window.location.href = '/signIn';
+            return;
+        }
         const data = {
             productId: item.id,
             quantity: item.quantity,
@@ -188,8 +192,9 @@ function App() {
 
                 <Header data={categories} />
                 <Routes>
-                    <Route exact={true} path="/" element={<Home data={productData} categories={categories} />} />
-                    <Route exact={true} path="/cat/:id" element={<Listing data={data.productData} single={true} />} />
+
+                    <Route exact={true} path="/" element={<Home data={productData} categories={categories}/>}/>
+                    <Route exact={true} path="/cat/:id" element={<Listing categories={categories} data={productData} single={true}/>}/>
                     <Route exact={true} path="/cat/:id/:id"
                         element={<Listing data={data.productData} single={false} />} />
                     <Route exact={true} path="/wishlist" element={<Wishlist />} />

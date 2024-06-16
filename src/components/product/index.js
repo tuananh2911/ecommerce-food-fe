@@ -1,50 +1,48 @@
-import React, { useEffect, useState, useContext } from 'react';
-import './style.css';
-import Rating from '@mui/material/Rating';
-import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import CompareArrowsOutlinedIcon from '@mui/icons-material/CompareArrowsOutlined';
-import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import React, { useEffect, useState, useContext } from "react";
+import "./style.css";
+import Rating from "@mui/material/Rating";
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import CompareArrowsOutlinedIcon from "@mui/icons-material/CompareArrowsOutlined";
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 
-
-import { MyContext } from '../../App';
-
+import { MyContext } from "../../App";
 
 const Product = (props) => {
+  console.log("check", props.item);
+  const [productData, setProductData] = useState(props.item);
+  const [isAdded, setIsadded] = useState(false);
+  const context = useContext(MyContext);
+  let averageRating = 0;
+  if (productData?.reviews && productData?.reviews.length > 0) {
+    averageRating =
+      productData.reviews.reduce((acc, review) => acc + review.rating, 0) /
+      productData.reviews.length;
+  }
 
-    const [productData, setProductData] = useState(props.item);
-    const [isAdded, setIsadded] = useState(false);
-    const context  = useContext(MyContext);
-    let averageRating = 0
-    if(productData?.reviews && productData?.reviews.length > 0){
-        averageRating = productData.reviews.reduce((acc, review) => acc + review.rating, 0) / productData.reviews.length;
+  useEffect(() => {
+    setProductData(props.item);
+  }, [props.item]);
+
+  const setProductCat = () => {
+    sessionStorage.setItem("parentCat", productData.name);
+    sessionStorage.setItem("subCatName", productData.name);
+  };
+
+  const addToCart = (item) => {
+    try {
+      if (context.addToCart(item)) {
+        setIsadded(true);
+      } else {
+        alert("Item can not added to cart");
+      }
+    } catch (error) {
+      console.log(error.message);
     }
+  };
 
-    useEffect(() => {
-        setProductData(props.item);
-
-    }, [props.item])
-
-    const setProductCat=()=>{
-        sessionStorage.setItem('parentCat', productData.name);
-        sessionStorage.setItem('subCatName', productData.name);
-    }
-
-
-    const addToCart=(item)=>{
-        try {
-            if(context.addToCart(item)){
-                setIsadded(true);
-            }else{
-                alert('Item can not added to cart');
-            }
-        } catch (error) {
-            console.log(error.message);
-        }
-        
-    }
 
     return (
         <div className='productThumb' onClick={setProductCat}>
@@ -58,7 +56,9 @@ const Product = (props) => {
                     <Link to={`/product/${productData.id}`}>
                         <div className='imgWrapper'>
                             <div className='p-4 wrapper mb-3'>
-                                <img src={productData.image[0]?.url} className='w-100'/>
+
+                                <img src={productData?.image[0]?.url} className='w-100'/>
+
                             </div>
 
                             <div className='overlay transition'>
