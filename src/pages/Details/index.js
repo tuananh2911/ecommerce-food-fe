@@ -106,7 +106,7 @@ const DetailsPage = (props) => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:5000/api/reviews", reviewFields);
+      await axios.post("https://api.huycodelo.id.vn/api/reviews", reviewFields);
       setReviewFields({
         review: "",
         userId: user?.id,
@@ -123,7 +123,7 @@ const DetailsPage = (props) => {
   const loadReviews = async () => {
     console.log("load");
     try {
-      const response = await axios.get("http://localhost:5000/api/products");
+      const response = await axios.get("https://api.huycodelo.id.vn/api/products");
       const productReviews = response.data.filter(
         (product) => product.id === parseInt(id)
       );
@@ -142,7 +142,7 @@ const DetailsPage = (props) => {
   const addToWishlist = async (userId, productId) => {
     console.log("add to wishlist");
     try {
-      const response = await axios.post("http://localhost:5000/api/wishlist", {
+      const response = await axios.post("https://api.huycodelo.id.vn/api/wishlist", {
         productId,
         customerId: userId,
       });

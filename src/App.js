@@ -116,7 +116,7 @@ function App() {
             customerId: user.id,
         }
         try {
-            await axios.post("http://localhost:5000/api/carts", data).then((res) => {
+            await axios.post("https://api.huycodelo.id.vn/api/carts", data).then((res) => {
                 if (res.status === 201) {
                     return true;
                 } else {

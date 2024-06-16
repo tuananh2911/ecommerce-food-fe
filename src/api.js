@@ -4,7 +4,7 @@ import {useContext, useState} from 'react';
 import { UserContext } from './context/UserContext';
 
 const BASE_URL = process.env.BASE_URL;
-const localhost = 'http://localhost:5000/api';
+const localhost = 'https://api.huycodelo.id.vn/api';
 
 const useApi = () => {
     const { user } = useContext(UserContext);
@@ -13,7 +13,7 @@ const useApi = () => {
     };
     const getOrders = async (customerId) => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/orders/customer?customerId=${customerId}`);
+            const response = await axios.get(`https://api.huycodelo.id.vn/api/orders/customer?customerId=${customerId}`);
             const orders = response.data;
 
             // Sửa đổi URL hình ảnh cho từng sản phẩm
@@ -25,7 +25,7 @@ const useApi = () => {
     }
     const getProductData = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/products");
+            const response = await axios.get("https://api.huycodelo.id.vn/api/products");
             const products = response.data;
 
             // Sửa đổi URL hình ảnh cho từng sản phẩm

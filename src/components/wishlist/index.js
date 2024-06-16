@@ -19,7 +19,7 @@ const Wishlist = () => {
       const fetchWishlistItems = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:5000/api/wishlist/all/${user.id}`
+            `https://api.huycodelo.id.vn/api/wishlist/all/${user.id}`
           ); // Thay thế API_ENDPOINT bằng endpoint thực tế của bạn
           console.log(response.data);
           setWishlistItems(response.data);
@@ -37,7 +37,7 @@ const Wishlist = () => {
     console.log("delete");
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/wishlist/delete/${id}`
+        `https://api.huycodelo.id.vn/api/wishlist/delete/${id}`
       ); // Thay thế API_ENDPOINT bằng endpoint thực tế của bạn
       navigate("/wishlist");
       console.log(response.data);

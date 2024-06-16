@@ -40,7 +40,7 @@ const SignUp = () => {
             };
 
             // Gửi yêu cầu POST
-            fetch("http://localhost:5000/api/customers/register", {
+            fetch("https://api.huycodelo.id.vn/api/customers/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

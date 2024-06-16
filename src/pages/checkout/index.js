@@ -41,7 +41,7 @@ const Checkout = (props) => {
                 };
 
                 try {
-                    const response = await axios.post('http://localhost:5000/api/orders', orderInfo);
+                    const response = await axios.post('https://api.huycodelo.id.vn/api/orders', orderInfo);
                     if (response.status !== 201) {
                         alert('Failed to place order for item ' + item.name + '. Please try again.');
                         return;

@@ -102,7 +102,8 @@ const Cart = () => {
                                             cartItems.map((cart, cartIndex) => {
                                                 return cart.products.map((product, productIndex) => {
                                                     const totalPrice = parseInt(product.price) * parseInt(cart.quantity);
-                                                    const averageRating = product.reviews.reduce((sum, review) => sum + review.rating, 0) / product.reviews.length;
+                                                    const averageRating = (product.reviews.reduce((sum, review) => sum + review.rating, 0) / product.reviews.length).toFixed(1);
+
 
                                                     return (
                                                         <tr key={`cart-${cartIndex}-product-${productIndex}`}>
