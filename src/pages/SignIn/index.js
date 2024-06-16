@@ -95,6 +95,7 @@ const SignIn = () => {
                 const jwtToken = data.access_token;
                 localStorage.setItem('jwtToken', jwtToken);
                 setShowLoader(false);
+                localStorage.setItem('isLogin', true);
                 localStorage.setItem('user', JSON.stringify(data.user));
                 setUserContext(data); // Cập nhật context
                 navigate('/');

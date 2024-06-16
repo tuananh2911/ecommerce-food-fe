@@ -1,21 +1,18 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Button, TextField, Box, Grid, Typography, Card, CardContent} from '@mui/material';
 import {useNavigate, useLocation} from 'react-router-dom';
 import axios from 'axios';
+import {UserContext} from "../../context/UserContext";
 
 const Checkout = (props) => {
     const location = useLocation();
     const {cartItems, cartTotalAmount} = location.state;
-
+    const { user } = useContext(UserContext);
     const [formFields, setFormFields] = useState({
-        customerId: '1',
-        status: 'Confirm',
-        address: '',
-        price: '',
-        phoneNumber:'',
-        cartId: '',
-        vendorId: '',
-        shipmentId: ''
+        houseNumber: '',
+        district: '',
+        city: '',
+        phoneNumber: '',
     });
 
     const navigate = useNavigate();
@@ -26,28 +23,38 @@ const Checkout = (props) => {
             return false;
         }
 
-        const orderInfo = {
-            ...formFields,
-            cartItems,
-            totalAmount: cartTotalAmount,
-            date: new Date().toLocaleString("en-US", {
-                month: "short",
-                day: "2-digit",
-                year: "numeric",
-            })
-        };
+        const address = `${formFields.houseNumber}, ${formFields.district}, ${formFields.city}`;
 
-        try {
-            const response = await axios.post('http://localhost:5000/api/checkout', orderInfo);
-            if (response.status === 200) {
-                navigate('/order-tracking');
-            } else {
-                alert('Failed to place order. Please try again.');
+        for (const cartItem of cartItems) {
+            for (const item of cartItem.products) {
+                const orderInfo = {
+                    customerId: user.id,
+                    status: 'Pending',
+                    address: address,
+                    price: item.price,
+                    phoneNumber: formFields.phoneNumber,
+                    productId: item.id,
+                    vendorId: item.vendorId,
+                    // shipmentId: '',
+                    cartId: cartItem.id,
+                    quantity:item.quantity
+                };
+
+                try {
+                    const response = await axios.post('http://localhost:5000/api/orders', orderInfo);
+                    if (response.status !== 201) {
+                        alert('Failed to place order for item ' + item.name + '. Please try again.');
+                        return;
+                    }
+
+                } catch (error) {
+                    console.error('Error placing order:', error);
+                    alert('Failed to place order for item ' + item.name + '. Please try again.');
+                    return;
+                }
             }
-        } catch (error) {
-            console.error('Error placing order:', error);
-            alert('Failed to place order. Please try again.');
         }
+        navigate('/order-tracking');
     };
 
     const changeInput = (e) => {
@@ -117,14 +124,14 @@ const Checkout = (props) => {
                     />
                     <TextField
                         label="District"
-                        name="billingAddress"
+                        name="district"
                         fullWidth
                         margin="normal"
                         onChange={changeInput}
                     />
                     <TextField
                         label="City"
-                        name="billingAddress"
+                        name="city"
                         fullWidth
                         margin="normal"
                         onChange={changeInput}
