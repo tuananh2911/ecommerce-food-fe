@@ -130,7 +130,10 @@ const Cart = () => {
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td width="20%"><span> {parseInt(product.price)}đ</span>
+                                                            <td width="20%"><span> {parseInt(product.price).toLocaleString('vi-VN', {
+                                                                style: 'currency',
+                                                                currency: 'VND'
+                                                            })}</span>
                                                             </td>
                                                             <td>
                                                                 <QuantityBox
@@ -141,7 +144,10 @@ const Cart = () => {
                                                                 />
                                                             </td>
                                                             <td>
-                                                                <span className='text-g'>{totalPrice}đ</span>
+                                                                <span className='text-g'>{totalPrice.toLocaleString('vi-VN', {
+                                                                    style: 'currency',
+                                                                    currency: 'VND'
+                                                                })}</span>
                                                             </td>
                                                             <td align='center'>
                                                                     <span className='cursor'
@@ -174,7 +180,10 @@ const Cart = () => {
                                 <div className='d-flex align-items-center mb-4'>
                                     <h5 className='mb-0 text-light'>Subtotal</h5>
                                     <h3 className='ml-auto mb-0 font-weight-bold'>
-                                        <span className='text-g'>{totalAmount}đ</span>
+                                        <span className='text-g'>{totalAmount.toLocaleString('vi-VN', {
+                                            style: 'currency',
+                                            currency: 'VND'
+                                        })}</span>
                                     </h3>
                                 </div>
 
@@ -191,7 +200,10 @@ const Cart = () => {
                                 <div className='d-flex align-items-center mb-4'>
                                     <h5 className='mb-0 text-light'>Total</h5>
                                     <h3 className='ml-auto mb-0 font-weight-bold'>
-                                        <span className='text-g'>{totalAmount}đ</span>
+                                        <span className='text-g'>{totalAmount.toLocaleString('vi-VN', {
+                                            style: 'currency',
+                                            currency: 'VND'
+                                        })}</span>
                                     </h3>
                                 </div>
 

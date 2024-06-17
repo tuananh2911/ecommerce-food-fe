@@ -243,14 +243,17 @@ const DetailsPage = (props) => {
 
               <div className="priceSec d-flex align-items-center mb-3">
                 <span className="text-g priceLarge">
-                  {currentProduct?.price}đ
+                  {currentProduct?.price.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}
                 </span>
                 <div className="ml-3 d-flex flex-column">
                   <span className="text-org">
                     {(currentProduct?.discount * 100).toFixed(0)}% Off
                   </span>
                   <span className="text-light oldPrice">
-                    {currentProduct?.originalPrice}đ
+                    {currentProduct?.originalPrice.toLocaleString('vi-VN', {
+                      style: 'currency',
+                      currency: 'VND'
+                    })}
                   </span>
                 </div>
               </div>

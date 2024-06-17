@@ -79,10 +79,10 @@ const Wishlist = () => {
                 <span className="wishlist-name">{item.product.name}</span>
                 <span className="wishlist-price">
                   <span className="original-price">
-                    ${item.product?.originalPrice}
+                    ${item.product?.originalPrice.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}
                   </span>
                   <span className="discounted-price">
-                    ${item.product?.price}
+                    ${item.product?.price.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}
                   </span>
                 </span>
                 <span className="wishlist-date">

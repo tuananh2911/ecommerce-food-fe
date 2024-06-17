@@ -95,9 +95,7 @@ const Product = (props) => {
                         <div className='d-flex align-items-center mt-3'>
                             <div className='d-flex align-items-center w-100'>
                                 <span className='price text-g font-weight-bold'>
-                                    <span style={{fontSize: '16px'}}>đ </span>
-                                    {productData.price}</span> <span className='oldPrice ml-auto'><span
-                                style={{fontSize: '16px'}}>đ</span>{productData.price}</span>
+                                    {productData.price.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}</span> <span className='oldPrice ml-auto'>{productData.price.toLocaleString()}</span>
                             </div>
                         </div>
 
